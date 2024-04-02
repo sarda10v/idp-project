@@ -5,7 +5,7 @@ import type { TextInputProps, BorderRadiusType } from "@admiral-ds/react-ui";
 
 export const Input = ({
   value = "Привет!",
-  placeholder = "Placeholder",
+  placeholder = "Введите текст",
   themeBorderKind,
   CSSCustomProps,
   ...props
