@@ -1,19 +1,16 @@
-import * as React from "react";
-import type { ChangeEvent } from "react";
-import { TextInput } from "@admiral-ds/react-ui";
-import type { TextInputProps, BorderRadiusType } from "@admiral-ds/react-ui";
+import { useState, type ChangeEvent } from "react";
+import type { TextInputProps } from "@admiral-ds/react-ui";
+import { StyleTextInput } from "./Input.styles";
 
 export const Input = ({
-  value = "Привет!",
+  value = "",
   placeholder = "Введите текст",
-  themeBorderKind,
   CSSCustomProps,
   ...props
 }: TextInputProps & {
-  themeBorderKind?: BorderRadiusType;
   CSSCustomProps?: boolean;
 }) => {
-  const [localValue, setValue] = React.useState<string>(String(value) ?? "");
+  const [localValue, setValue] = useState<string>(String(value) ?? "");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -22,7 +19,7 @@ export const Input = ({
   };
 
   return (
-    <TextInput
+    <StyleTextInput
       {...props}
       value={localValue}
       placeholder={placeholder}
