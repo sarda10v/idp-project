@@ -1,13 +1,11 @@
-const { todosController } = require("../controllers/todos.controller");
 const { Router } = require("express");
-const authMiddleware = require("../middlewares/auth.middleware");
+const { todosController } = require("../controllers/todos.controller");
 
 const router = Router();
 
-router.post("/todos", authMiddleware, todosController.createTodo);
-router.get("/todos", todosController.getAllTodos);
-router.delete("/todos/:id", authMiddleware, todosController.deleteTodo);
-
-
+router.post("/todos", todosController.addTodo);
+router.delete("/todos/:id", todosController.deleteTodoById);
+router.patch("/todos/:id", todosController.editTodoById);
+router.get("/todos", todosController.getTodos);
 
 module.exports = router;

@@ -1,35 +1,45 @@
 const Todo = require("../models/Todo.model");
-const jwt = require("jsonwebtoken");
 
 module.exports.todosController = {
-  getAllTodos: async (req, res) => {
-    const todos = await Todo.find();
-    res.json(todos);
-  },
-
-  deleteTodo: async (req, res) => {
-    const { id } = req.params;
-    try {
-      const todo = await Todo.findById(id);
-      if (todo.user.toString() === payload.id) {
-        await todo.remove();
-        return res.json("Удалено");
-      }
-      return res.status(401).json("ошибка, нет доступа");
-    } catch (e) {
-      return res.status(401).json("Ошибка: " + e.toString());
-    }
-  },
-
-  createTodo: async (req, res) => {
-    const { text } = req.body;
+  addTodo: async (req, res) => {
     try {
       const todo = await Todo.create({
-        user: req.user.id,
-        text,
+        todo: req.body.todo,
       });
-    } catch (e) {
-      return res.status(401).json("неверный токен");
+      return res.json(todo);
+    } catch (err) {
+      res.json(err);
+    }
+  },
+  deleteTodoById: async (req, res) => {
+    try {
+      await Todo.findByIdAndRemove(req.params.id);
+      res.json("Дело удалено");
+    } catch (err) {
+      res.json(err);
+    }
+  },
+  editTodoById: async (req, res) => {
+    try {
+      const todo = await Todo.findByIdAndUpdate(
+        req.params.id,
+        {
+          favorite: req.body.favorite,
+        },
+
+        { new: true }
+      );
+      res.json(todo);
+    } catch (err) {
+      res.json(err);
+    }
+  },
+  getTodos: async (req, res) => {
+    try {
+      const todo = await Todo.find();
+      res.json(todo);
+    } catch (err) {
+      res.json(err);
     }
   },
 };
