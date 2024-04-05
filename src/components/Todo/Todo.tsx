@@ -1,23 +1,27 @@
+import { toast } from "react-toastify";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { editTodo, fetchTodos, removeTodo } from "../../features/todosSlice";
 import { AppDispatch } from "../../app/store";
-import { Container, DeleteIcon, Row, StyleList } from "./Todo.style";
-import { Button, Checkbox, Tag } from "@admiral-ds/react-ui";
-import { format } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
+import { IAppState, ITodo } from "../../features/types";
+import { Container, DeleteIcon, Row } from "./Todo.style";
+import { formatDateToRussian } from "../../helpers/utils";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { Button, Checkbox, T, Tag } from "@admiral-ds/react-ui";
+import { editTodo, fetchTodos, removeTodo } from "../../features/todosSlice";
 import DeleteOutline from "@admiral-ds/icons/build/system/DeleteOutline.svg";
-import { ITodo } from "../../features/types";
 
 const Todo: React.FC = () => {
-  const todos = useSelector((state) => state.todos.todos);
-  const loading = useSelector((state) => state.loading);
-  const error = useSelector((state) => state.error);
+  const { todos, loading } = useSelector((state: IAppState) => state.todos);
   const dispatch: AppDispatch = useDispatch();
+  const [parent] = useAutoAnimate();
 
   const handleRemoveTodo = (_id: string) => {
+    toast.success("Задача удалена!");
     dispatch(removeTodo(_id));
   };
+
   const handleChecked = (item: ITodo) => {
+    toast.info("Задача обновлена!");
     dispatch(editTodo(item));
   };
 
@@ -26,29 +30,44 @@ const Todo: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <ul>
-      {todos.map((item: ITodo, index: string) => {
-        const formattedDate = format(new Date(item.date), "dd.MM.yyyy");
+    <div ref={parent}>
+      {todos.map((item, index) => {
+        const formattedDate = formatDateToRussian(item.date);
         return (
           <Container key={index}>
             <Row>
+              <T font="Body/Body 2 Long" skeleton={loading}>
+                {index + 1}.
+              </T>
+
+              <T font="Body/Body 2 Long" skeleton={loading}>
+                {item.todo}
+              </T>
+              <T font="Body/Body 2 Long" skeleton={loading}>
+                {!loading ? (
+                  <Tag
+                    statusViaBackground
+                    kind={item.favorite ? "success" : "neutral"}
+                  >
+                    {item.favorite ? "Выполнено" : "Создано"}
+                  </Tag>
+                ) : null}
+              </T>
+              <T font="Body/Body 2 Long" skeleton={loading}>
+                {formattedDate}
+              </T>
               <Checkbox
                 dimension="s"
                 checked={item.favorite}
                 onChange={() => handleChecked(item)}
+                disabled={loading}
               />
-              <StyleList font="Body/Body 2 Long" skeleton={loading}>
-                {item.todo}
-              </StyleList>
-              <Tag statusViaBackground kind={item.favorite ? "success" : ""}>
-                {item.favorite ? "Выполнено" : "Создано"}
-              </Tag>
-              <span>{formattedDate}</span>
               <Button
                 dimension="s"
                 displayAsSquare
                 appearance="ghost"
                 onClick={() => handleRemoveTodo(item._id)}
+                skeleton={loading}
               >
                 <DeleteIcon src={DeleteOutline} alt="DeleteIcon" />
               </Button>
@@ -56,7 +75,7 @@ const Todo: React.FC = () => {
           </Container>
         );
       })}
-    </ul>
+    </div>
   );
 };
 

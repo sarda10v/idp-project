@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { ITodosState } from "./types";
+import { ITodo, ITodosState } from "./types";
 import { BASE_URL } from "./constants";
 
 export const fetchTodos = createAsyncThunk(
@@ -8,9 +8,10 @@ export const fetchTodos = createAsyncThunk(
     try {
       const res = await fetch(`${BASE_URL}/todos`);
       console.log(res, "res");
-      
+
       return await res.json();
     } catch (err) {
+      console.error(`Ошибка при загрузке данных: ${err}`);
       return thunkAPI.rejectWithValue(err);
     }
   }
@@ -18,13 +19,14 @@ export const fetchTodos = createAsyncThunk(
 
 export const removeTodo = createAsyncThunk(
   "todo/remove",
-  async (id, thunkAPI) => {
+  async (id: string, thunkAPI) => {
     try {
       await fetch(`${BASE_URL}/todos/${id}`, {
         method: "DELETE",
       });
       return id;
     } catch (err) {
+      console.error(`Ошибка при удалении данных: ${err}`);
       return thunkAPI.rejectWithValue(err);
     }
   }
@@ -32,7 +34,7 @@ export const removeTodo = createAsyncThunk(
 
 export const editTodo = createAsyncThunk(
   "todo/edit",
-  async (item, thunkAPI) => {
+  async (item: ITodo, thunkAPI) => {
     try {
       const res = await fetch(`${BASE_URL}/todos/${item._id}`, {
         method: "PATCH",
@@ -43,6 +45,7 @@ export const editTodo = createAsyncThunk(
       });
       return res.json();
     } catch (err) {
+      console.error(`Ошибка при редактировании данных: ${err}`);
       return thunkAPI.rejectWithValue(err);
     }
   }
@@ -50,7 +53,7 @@ export const editTodo = createAsyncThunk(
 
 export const addNewTodo = createAsyncThunk(
   "todo/add",
-  async (text, thunkAPI) => {
+  async (text: string, thunkAPI) => {
     try {
       const res = await fetch(`${BASE_URL}/todos`, {
         method: "POST",
@@ -62,6 +65,7 @@ export const addNewTodo = createAsyncThunk(
       const data = await res.json();
       return thunkAPI.fulfillWithValue(data);
     } catch (err) {
+      console.error(`Ошибка при добавлении данных: ${err}`);
       return thunkAPI.rejectWithValue(err);
     }
   }
@@ -70,7 +74,6 @@ export const addNewTodo = createAsyncThunk(
 const initialState: ITodosState = {
   todos: [],
   loading: false,
-  error: null,
 };
 
 export const todosSlice = createSlice({
@@ -86,11 +89,6 @@ export const todosSlice = createSlice({
       .addCase(fetchTodos.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchTodos.rejected, (state, action) => {
-        state.error = action.payload.message;
-        state.loading = false;
-      })
-
       .addCase(removeTodo.fulfilled, (state, action) => {
         state.todos = state.todos.filter((item: any) => {
           return item._id !== action.payload;
@@ -100,11 +98,6 @@ export const todosSlice = createSlice({
       .addCase(removeTodo.pending, (state) => {
         state.loading = true;
       })
-      .addCase(removeTodo.rejected, (state, action) => {
-        state.error = action.payload.message;
-        state.loading = false;
-      })
-
       .addCase(editTodo.fulfilled, (state, action) => {
         state.todos = state.todos.map((item: any) => {
           if (item._id === action.payload._id) {
@@ -117,21 +110,12 @@ export const todosSlice = createSlice({
       .addCase(editTodo.pending, (state) => {
         state.loading = true;
       })
-      .addCase(editTodo.rejected, (state, action) => {
-        state.error = action.payload.message;
-        state.loading = false;
-      })
-
       .addCase(addNewTodo.fulfilled, (state, action) => {
         state.todos.unshift(action.payload);
         state.loading = false;
       })
       .addCase(addNewTodo.pending, (state) => {
         state.loading = true;
-      })
-      .addCase(addNewTodo.rejected, (state, action) => {
-        state.error = action.payload.message;
-        state.loading = false;
       });
   },
 });

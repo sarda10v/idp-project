@@ -1,4 +1,5 @@
 export interface ITodo {
+  date: string | number | Date;
   _id: string;
   todo: string;
   favorite: boolean;
@@ -7,8 +8,10 @@ export interface ITodo {
 export interface ITodosState {
   todos: ITodo[];
   loading: boolean;
-  error: string | null;
 }
-export interface FetchTodosResponse {
+export interface IFetchTodosResponse {
   todos: ITodo[];
+}
+export interface IAppState {
+  todos: ITodosState;
 }

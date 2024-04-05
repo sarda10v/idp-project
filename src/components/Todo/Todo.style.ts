@@ -1,13 +1,10 @@
-import { T } from "@admiral-ds/react-ui";
 import styled from "styled-components";
-
-export const StyleList = styled(T)`
-  border: 1px solid red;
-`;
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 5px 15px;
+  border-bottom: 1px solid grey;
 
   > *:not(:first-child) {
     margin-top: 16px;
@@ -19,7 +16,7 @@ export const Row = styled.div`
   flex-direction: row;
   align-items: center;
   > *:not(:last-child) {
-    margin-right: 66px;
+    margin-right: 20px;
   }
   > * {
     flex: 0 0 auto;
@@ -29,6 +26,4 @@ export const Row = styled.div`
 export const DeleteIcon = styled.img`
   width: 20px;
   height: 20px;
-  fill: red !important;
-
 `;
