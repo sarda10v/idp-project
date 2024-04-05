@@ -4,7 +4,6 @@ const todosSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-
   favorite: {
     type: Boolean,
     default: false,

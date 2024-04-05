@@ -9,14 +9,18 @@ import {
 } from "@admiral-ds/react-ui";
 import { App } from "./App";
 import "./index.css";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider theme={LIGHT_THEME}>
-      <DropdownProvider>
-        <FontsVTBGroup />
-        <App />
-      </DropdownProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={LIGHT_THEME}>
+        <DropdownProvider>
+          <FontsVTBGroup />
+          <App />
+        </DropdownProvider>
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>
 );
