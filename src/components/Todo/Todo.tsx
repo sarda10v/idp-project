@@ -19,7 +19,6 @@ const Todo: React.FC = () => {
     toast.success("Задача удалена!");
     dispatch(removeTodo(_id));
   };
-  const data = "sad"
 
   const handleChecked = (item: ITodo) => {
     toast.info("Задача обновлена!");
