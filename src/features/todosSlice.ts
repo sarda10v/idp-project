@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { ITodo, ITodosState } from "./types";
+import { ITodo, ITodosState } from "../types/types";
 import { BASE_URL } from "./constants";
 
 export const fetchTodos = createAsyncThunk(

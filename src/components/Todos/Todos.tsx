@@ -4,7 +4,7 @@ import { StyleFormWrapper } from "./Todos.style";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addNewTodo } from "../../features/todosSlice";
-import { handleAddEnter } from "../../helpers/keyHandlers";
+import { handleAddEnter } from "../../utils/keyHandlers";
 import { AppDispatch } from "../../app/store";
 
 export const Todos: React.FC = () => {
