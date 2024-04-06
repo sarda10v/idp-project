@@ -24,6 +24,7 @@ module.exports.todosController = {
       const todo = await Todo.findByIdAndUpdate(
         req.params.id,
         {
+          todo: req.body.todo,
           favorite: req.body.favorite,
         },
 

@@ -15,10 +15,10 @@ export const Todos: React.FC = () => {
     if (text.trim().length) {
       dispatch(addNewTodo(text));
       toast.success("Задача добавлена!");
+      setText("");
     } else {
       toast.error("Задача не может быть пустой!");
     }
-    setText("");
   };
 
   return (

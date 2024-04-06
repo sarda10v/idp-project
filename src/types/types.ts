@@ -15,3 +15,7 @@ export interface IFetchTodosResponse {
 export interface IAppState {
   todos: ITodosState;
 }
+export interface EditTodoTextParams {
+  item: ITodo;
+  editText: string;
+}

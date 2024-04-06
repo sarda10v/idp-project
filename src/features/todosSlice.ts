@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { ITodo, ITodosState } from "../types/types";
+import { EditTodoTextParams, ITodo, ITodosState } from "../types/types";
 import { BASE_URL } from "./constants";
 
 export const fetchTodos = createAsyncThunk(
@@ -32,7 +32,7 @@ export const removeTodo = createAsyncThunk(
   }
 );
 
-export const editTodo = createAsyncThunk(
+export const editTodoStatus = createAsyncThunk(
   "todo/edit",
   async (item: ITodo, thunkAPI) => {
     try {
@@ -46,6 +46,25 @@ export const editTodo = createAsyncThunk(
       return res.json();
     } catch (err) {
       console.error(`Ошибка при редактировании данных: ${err}`);
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const editTodoText = createAsyncThunk<ITodo, EditTodoTextParams>(
+  "todo/editText",
+  async ({ item, editText }, thunkAPI) => {
+    try {
+      const res = await fetch(`${BASE_URL}/todos/${item._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ todo: editText }),
+      });
+      return res.json();
+    } catch (err) {
+      console.error(`Ошибка при редактировании текста задачи: ${err}`);
       return thunkAPI.rejectWithValue(err);
     }
   }
@@ -90,7 +109,7 @@ export const todosSlice = createSlice({
         state.loading = true;
       })
       .addCase(removeTodo.fulfilled, (state, action) => {
-        state.todos = state.todos.filter((item: any) => {
+        state.todos = state.todos.filter((item: ITodo) => {
           return item._id !== action.payload;
         });
         state.loading = false;
@@ -98,8 +117,8 @@ export const todosSlice = createSlice({
       .addCase(removeTodo.pending, (state) => {
         state.loading = true;
       })
-      .addCase(editTodo.fulfilled, (state, action) => {
-        state.todos = state.todos.map((item: any) => {
+      .addCase(editTodoStatus.fulfilled, (state, action) => {
+        state.todos = state.todos.map((item: ITodo) => {
           if (item._id === action.payload._id) {
             return action.payload;
           }
@@ -107,7 +126,7 @@ export const todosSlice = createSlice({
         });
         state.loading = false;
       })
-      .addCase(editTodo.pending, (state) => {
+      .addCase(editTodoStatus.pending, (state) => {
         state.loading = true;
       })
       .addCase(addNewTodo.fulfilled, (state, action) => {
@@ -115,6 +134,19 @@ export const todosSlice = createSlice({
         state.loading = false;
       })
       .addCase(addNewTodo.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(editTodoText.fulfilled, (state, action) => {
+        state.todos = state.todos.map((item: ITodo) => {
+          if (item._id === action.payload._id) {
+            return action.payload;
+          }
+          return item;
+        });
+        state.loading = false;
+      })
+      .addCase(editTodoText.pending, (state) => {
         state.loading = true;
       });
   },
