@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import { AppDispatch } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import { IAppState, ITodo } from "../../types/types";
-import { Container, Icon, Row } from "./Todo.style";
-import { formatDateToRussian } from "../../utils/formatDate";
+import { Container, Icon, TextTodo, Wrapper } from "./Todo.style";
+import { formatDateAndTimeToRussian } from "../../utils/formatDate";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Checkbox, T, Tag, TextInput } from "@admiral-ds/react-ui";
 import {
@@ -15,9 +15,9 @@ import {
 } from "../../features/todosSlice";
 
 import DeleteOutline from "@admiral-ds/icons/build/system/DeleteOutline.svg";
-import CalendarOutline from "@admiral-ds/icons/build/system/CalendarOutline.svg";
 import EditOutline from "@admiral-ds/icons/build/system/EditOutline.svg";
 import CheckOutline from "@admiral-ds/icons/build/service/CheckOutline.svg";
+import Stub from "../Stub/Stub";
 
 const Todo: React.FC = () => {
   const { todos, loading } = useSelector((state: IAppState) => state.todos);
@@ -58,21 +58,19 @@ const Todo: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div ref={parent}>
-      {todos.map((item, index) => {
-        const formattedDate = formatDateToRussian(item.date);
-        return (
-          <Container key={index}>
-            <Row>
-              <T font="Body/Body 2 Long" skeleton={loading}>
-                {index + 1}.
-              </T>
+    <Wrapper ref={parent}>
+      {todos.length ? (
+        todos.map((item, index) => {
+          const formattedDate = formatDateAndTimeToRussian(item.date);
+          return (
+            <Container key={index}>
               <Checkbox
                 dimension="s"
                 checked={item.favorite}
                 onChange={() => handleChecked(item)}
                 disabled={loading}
               />
+              <Tag kind={"warning"}>TASK-{index + 1}</Tag>
               {editTodoId === item._id ? (
                 <>
                   <TextInput
@@ -89,9 +87,9 @@ const Todo: React.FC = () => {
                   />
                 </>
               ) : (
-                <T font="Body/Body 2 Long" skeleton={loading}>
+                <TextTodo font="Subtitle/Subtitle 2" skeleton={loading}>
                   {item.todo}
-                </T>
+                </TextTodo>
               )}
               <T font="Body/Body 2 Long" skeleton={loading}>
                 {!loading ? (
@@ -103,40 +101,24 @@ const Todo: React.FC = () => {
                   </Tag>
                 ) : null}
               </T>
-              <Icon src={CalendarOutline} alt="CalendarIcon" />
-              <T font="Body/Body 2 Long" skeleton={loading}>
-                {formattedDate}
-              </T>
-              {/* <Button
-                dimension="s"
-                displayAsSquare
-                appearance="ghost"
-                onClick={() => handleRemoveTodo(item._id)}
-                skeleton={loading}
-              > */}
+              <Tag kind="neutral">{formattedDate}</Tag>
               <Icon
                 src={DeleteOutline}
                 alt="DeleteIcon"
                 onClick={() => handleRemoveTodo(item._id)}
               />
-              {/* </Button> */}
-              {/* <Button
-                dimension="s"
-                displayAsSquare
-                appearance="ghost"
-                skeleton={loading}
-              > */}
               <Icon
                 src={EditOutline}
                 alt="EditIcon"
                 onClick={() => handleEditClick(item)}
               />
-              {/* </Button> */}
-            </Row>
-          </Container>
-        );
-      })}
-    </div>
+            </Container>
+          );
+        })
+      ) : (
+        <Stub />
+      )}
+    </Wrapper>
   );
 };
 

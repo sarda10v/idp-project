@@ -2,7 +2,14 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: VTB Group UI;
 }
+
+:root {
+  --grey-bg-color: #ececec;
+  --white-bg-color: #ffffff;
+}
+
 body {
-  background-color: rgb(236, 236, 236);
+  background-color: #f1f3f6;
 }

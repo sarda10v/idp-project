@@ -1,6 +1,10 @@
-import { Button, TextInput } from "@admiral-ds/react-ui";
+import { Button, T } from "@admiral-ds/react-ui";
 import { toast } from "react-toastify";
-import { StyleFormWrapper } from "./Todos.style";
+import {
+  StyleFormWrapper,
+  StyleInputWrapper,
+  StyleTextInput,
+} from "./Todos.style";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addNewTodo } from "../../features/todosSlice";
@@ -23,16 +27,22 @@ export const Todos: React.FC = () => {
 
   return (
     <StyleFormWrapper>
-      <TextInput
-        value={text}
-        placeholder={"Введите текст"}
-        onChange={(event) => setText(event.target.value)}
-        onKeyPress={(event) => handleAddEnter(event, handleAddTodo)}
-        displayClearIcon={true}
-      />
-      <Button dimension="m" onClick={handleAddTodo}>
-        Добавить
-      </Button>
+      <T font="Header/H4" as="h4">
+        Todo-list
+      </T>
+      <StyleInputWrapper>
+        <StyleTextInput
+          dimension="s"
+          value={text}
+          placeholder={"Введите текст"}
+          onChange={(event) => setText(event.target.value)}
+          onKeyPress={(event) => handleAddEnter(event, handleAddTodo)}
+          displayClearIcon={true}
+        />
+        <Button dimension="s" onClick={handleAddTodo}>
+          Добавить
+        </Button>
+      </StyleInputWrapper>
     </StyleFormWrapper>
   );
 };

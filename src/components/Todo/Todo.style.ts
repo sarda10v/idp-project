@@ -1,26 +1,12 @@
+import { T } from "@admiral-ds/react-ui";
 import styled from "styled-components";
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 5px 15px;
-  border-bottom: 1px solid grey;
-
-  > *:not(:first-child) {
-    margin-top: 16px;
-  }
-`;
-
-export const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  > *:not(:last-child) {
-    margin-right: 10px;
-  }
-  > * {
-    flex: 0 0 auto;
-  }
+  width: 447px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--white-bg-color);
+  box-shadow: 0px 3.2px 9px 0px #00000029;
 `;
 
 export const Icon = styled.img`
@@ -28,6 +14,20 @@ export const Icon = styled.img`
   height: 20px;
   border-radius: 50%;
   &:hover {
-    background-color: rgba(255, 255, 255);
+    background-color: red;
   }
+`;
+
+export const Wrapper = styled.div`
+  width: 95%;
+  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+`;
+export const TextTodo = styled(T)`
+  width: 305px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
