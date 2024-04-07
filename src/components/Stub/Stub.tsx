@@ -18,12 +18,12 @@ const Stub: React.FC = () => {
     <StubWrapper>
       <StubHeader>
         <StubIcon src={ArchiveOutline} alt="StubIcon" />
-        <StubTitle font="Header/H4" as={"h4"}>
+        <StubTitle $font="Header/H4" as={"h4"}>
           {TITLE_STUB}
         </StubTitle>
       </StubHeader>
       <StubBody>
-        <StubSubtitle font="Body/Body 1 Long">{SUBTITLE_STUB}</StubSubtitle>
+        <StubSubtitle $font="Body/Body 1 Long">{SUBTITLE_STUB}</StubSubtitle>
       </StubBody>
     </StubWrapper>
   );

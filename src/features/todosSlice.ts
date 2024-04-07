@@ -7,8 +7,6 @@ export const fetchTodos = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const res = await fetch(`${BASE_URL}/todos`);
-      console.log(res, "res");
-
       return await res.json();
     } catch (err) {
       console.error(`Ошибка при загрузке данных: ${err}`);

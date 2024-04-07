@@ -4,16 +4,19 @@ import {
   StyleFormWrapper,
   StyleInputWrapper,
   StyleTextInput,
+  TasksCount,
 } from "./Todos.style";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addNewTodo } from "../../features/todosSlice";
 import { handleAddEnter } from "../../utils/keyHandlers";
 import { AppDispatch } from "../../app/store";
+import { IAppState } from "../../types/types";
 
 export const Todos: React.FC = () => {
   const [text, setText] = useState<string>("");
   const dispatch: AppDispatch = useDispatch();
+  const { todos } = useSelector((state: IAppState) => state.todos);
 
   const handleAddTodo = () => {
     if (text.trim().length) {
@@ -21,7 +24,7 @@ export const Todos: React.FC = () => {
       toast.success("Задача добавлена!");
       setText("");
     } else {
-      toast.error("Задача не может быть пустой!");
+      toast.error("Поле не может быть пустым!");
     }
   };
 
@@ -29,6 +32,7 @@ export const Todos: React.FC = () => {
     <StyleFormWrapper>
       <T font="Header/H4" as="h4">
         Todo-list
+        <TasksCount>{todos.length}</TasksCount>
       </T>
       <StyleInputWrapper>
         <StyleTextInput

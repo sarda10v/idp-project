@@ -1,3 +1,4 @@
+// ENTER KEY
 export const handleAddEnter = (
   event: React.KeyboardEvent<HTMLInputElement>,
   addTodo: () => void

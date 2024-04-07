@@ -9,12 +9,15 @@ export interface ITodosState {
   todos: ITodo[];
   loading: boolean;
 }
+
 export interface IFetchTodosResponse {
   todos: ITodo[];
 }
+
 export interface IAppState {
   todos: ITodosState;
 }
+
 export interface EditTodoTextParams {
   item: ITodo;
   editText: string;
