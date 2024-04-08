@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { EditTodoTextParams, ITodo, ITodosState } from "../types/types";
-import { SERVER_URL } from "../serverUrl";
+import { BASE_URL } from "./constants";
 
 export const fetchTodos = createAsyncThunk(
   "todos/fetch",
   async (_, thunkAPI) => {
     try {
-      const res = await fetch(`${SERVER_URL}/todos`);
+      const res = await fetch(`${BASE_URL}/todos`);
       return await res.json();
     } catch (err) {
       console.error(`Ошибка при загрузке данных: ${err}`);
@@ -19,7 +19,7 @@ export const removeTodo = createAsyncThunk(
   "todo/remove",
   async (id: string, thunkAPI) => {
     try {
-      await fetch(`${SERVER_URL}/todos/${id}`, {
+      await fetch(`${BASE_URL}/todos/${id}`, {
         method: "DELETE",
       });
       return id;
@@ -34,7 +34,7 @@ export const editTodoStatus = createAsyncThunk(
   "todo/edit",
   async (item: ITodo, thunkAPI) => {
     try {
-      const res = await fetch(`${SERVER_URL}/todos/${item._id}`, {
+      const res = await fetch(`${BASE_URL}/todos/${item._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export const editTodoText = createAsyncThunk<ITodo, EditTodoTextParams>(
   "todo/editText",
   async ({ item, editText }, thunkAPI) => {
     try {
-      const res = await fetch(`${SERVER_URL}/todos/${item._id}`, {
+      const res = await fetch(`${BASE_URL}/todos/${item._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export const addNewTodo = createAsyncThunk(
   "todo/add",
   async (text: string, thunkAPI) => {
     try {
-      const res = await fetch(`${SERVER_URL}/todos`, {
+      const res = await fetch(`${BASE_URL}/todos`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

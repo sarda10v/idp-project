@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export const Container = styled.span`
   width: 24%;
-  min-width: 437px;
   height: 100px;
   padding: 16px;
   border-radius: 8px;
