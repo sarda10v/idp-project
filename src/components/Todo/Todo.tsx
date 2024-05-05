@@ -34,7 +34,9 @@ import EditSolid from "@admiral-ds/icons/build/system/EditSolid.svg";
 import LinkOutline from "@admiral-ds/icons/build/system/LinkOutline.svg";
 
 const Todo: React.FC = () => {
-  const { todos, loading } = useSelector((state: IAppState) => state.todos);
+  const { todos, loading, error } = useSelector(
+    (state: IAppState) => state.todos
+  );
   const [editTodoId, setEditTodoId] = React.useState<string | null>(null);
   const [editText, setEditText] = React.useState<string>("");
   const dispatch: AppDispatch = useDispatch();
@@ -96,6 +98,11 @@ const Todo: React.FC = () => {
       console.error("Ошибка при копировании: ", err);
     }
   };
+
+  //  type guards
+  if (typeof error === "string") {
+    toast.error(error);
+  }
 
   useEffect(() => {
     dispatch(fetchTodos());

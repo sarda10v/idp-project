@@ -1,5 +1,5 @@
 export interface ITodo {
-  date: string | number | Date;
+  date: DataType;
   _id: string;
   todo: string;
   favorite: boolean;
@@ -8,6 +8,7 @@ export interface ITodo {
 export interface ITodosState {
   todos: ITodo[];
   loading: boolean;
+  error: ErrorResponseType;
 }
 
 export interface IFetchTodosResponse {
@@ -22,3 +23,6 @@ export interface EditTodoTextParams {
   item: ITodo;
   editText: string;
 }
+export type DataType = string | number | Date;
+export type ErrorResponseType = string | null | undefined;
+export type AddTodoType = ITodo | string;
