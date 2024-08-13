@@ -8,6 +8,13 @@ import {
 } from "../types/types";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
+/* Первый параметр <ITodo[]> указывает тип результата успешного выполнения Thunk-функции. 
+ Второй параметр <void> указывает тип входного параметра для Thunk-функции.
+ Третий параметр { rejectValue: ErrorResponseType } указывает объект опций для createAsyncThunk. 
+ rejectValue позволяет определить тип значения, передаваемого в rejectWithValue в случае возникновения ошибки при выполнении асинхронной операции. 
+ Здесь ErrorResponseType представляет тип данных, описывающих ошибку, которую может вернуть операция удаления задачи. 
+ Это позволяет типизировать rejectWithValue таким образом, что она принимает значение, соответствующее типу ErrorResponseType. */
+
 export const fetchTodos = createAsyncThunk<
   ITodo[],
   void,
